@@ -1,13 +1,15 @@
-package ro.disi.disi_backend.Repository.Chat;
+package ro.disi.disi_backend.Repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
-import ro.disi.disi_backend.Model.Chat.Message;
-import ro.disi.disi_backend.Model.User.UserProfile;
+import org.springframework.stereotype.Repository;
+import ro.disi.disi_backend.Model.Message;
+import ro.disi.disi_backend.Model.UserProfile;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public interface MessageRepository extends JpaRepository<Message, Long> {
 
     Optional<List<Message>> findAllBySenderUserProfileAndReceiverUserProfile(@Param("senderUserProfile") UserProfile senderUserProfile,

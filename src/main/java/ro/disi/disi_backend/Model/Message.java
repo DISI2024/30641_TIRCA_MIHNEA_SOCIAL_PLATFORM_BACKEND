@@ -1,8 +1,7 @@
-package ro.disi.disi_backend.Model.Chat;
+package ro.disi.disi_backend.Model;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
-import ro.disi.disi_backend.Model.User.UserProfile;
 
 import java.sql.Timestamp;
 

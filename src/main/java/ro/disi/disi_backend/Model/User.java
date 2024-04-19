@@ -1,4 +1,4 @@
-package ro.disi.disi_backend.Model.User;
+package ro.disi.disi_backend.Model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;

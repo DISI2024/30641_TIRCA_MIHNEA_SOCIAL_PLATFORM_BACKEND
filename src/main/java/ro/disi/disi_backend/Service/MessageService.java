@@ -1,4 +1,4 @@
-package ro.disi.disi_backend.Service.Chat;
+package ro.disi.disi_backend.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,12 +8,11 @@ import net.minidev.json.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
-import ro.disi.disi_backend.Dto.Chat.MessagePullDto;
-import ro.disi.disi_backend.Model.Chat.Message;
-import ro.disi.disi_backend.Model.User.UserProfile;
-import ro.disi.disi_backend.Repository.Chat.MessageRepository;
-import ro.disi.disi_backend.Repository.User.UserProfileRepository;
-import ro.disi.disi_backend.Service.User.UserService;
+import ro.disi.disi_backend.Dto.MessagePullDto;
+import ro.disi.disi_backend.Model.Message;
+import ro.disi.disi_backend.Model.UserProfile;
+import ro.disi.disi_backend.Repository.MessageRepository;
+import ro.disi.disi_backend.Repository.UserProfileRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,17 +21,18 @@ import java.util.Optional;
 @Service
 public class MessageService {
 
-    @Autowired
-    private SimpMessagingTemplate messagingTemplate;
+    private final SimpMessagingTemplate messagingTemplate;
+
+    private final UserProfileRepository userProfileRepository;
+
+    private final MessageRepository messageRepository;
 
     @Autowired
-    private UserProfileRepository userProfileRepository;
-
-    @Autowired
-    private MessageRepository messageRepository;
-
-    @Autowired
-    private UserService userService;
+    public MessageService(SimpMessagingTemplate messagingTemplate, UserProfileRepository userProfileRepository, MessageRepository messageRepository) {
+        this.messagingTemplate = messagingTemplate;
+        this.userProfileRepository = userProfileRepository;
+        this.messageRepository = messageRepository;
+    }
 
     private Optional<List<Message>> findAllMessagesForUsers(UserProfile senderUserProfile, UserProfile receiverUserProfile) {
 
@@ -66,7 +66,7 @@ public class MessageService {
             return null;
 
         // Replace with streams ?!?!
-        for (int i=0; i<messageList.size(); i++)
+        for (int i = 0; i < messageList.size(); i++)
             if (firstUserProfile.equals(messageList.get(i).getReceiverUserProfile())) {
                 messageList.get(i).setSeenByReceiver(true);
                 messageRepository.save(messageList.get(i));
@@ -107,8 +107,8 @@ public class MessageService {
         JSONParser parser = new JSONParser();
         JSONObject json = (JSONObject) parser.parse(requestBody);
 
-        long senderUserProfileId = ((Number)json.get("senderUserProfileId")).longValue();
-        long receiverUserProfileId = ((Number)json.get("receiverUserProfileId")).longValue();
+        long senderUserProfileId = ((Number) json.get("senderUserProfileId")).longValue();
+        long receiverUserProfileId = ((Number) json.get("receiverUserProfileId")).longValue();
         String content = (String) json.get("content");
 
         UserProfile senderUserProfile = userProfileRepository.findById(senderUserProfileId).orElse(null);

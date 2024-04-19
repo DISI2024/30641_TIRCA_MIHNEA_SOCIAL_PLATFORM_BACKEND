@@ -1,8 +1,7 @@
-package ro.disi.disi_backend.Model.User;
+package ro.disi.disi_backend.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import ro.disi.disi_backend.Model.Chat.Message;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +29,7 @@ public class UserProfile {
     @JsonBackReference
     private List<Message> messages = new ArrayList<>();
 
-    public UserProfile(){
+    public UserProfile() {
 
     }
 

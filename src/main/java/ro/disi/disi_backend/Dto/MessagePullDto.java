@@ -1,4 +1,4 @@
-package ro.disi.disi_backend.Dto.Chat;
+package ro.disi.disi_backend.Dto;
 
 public class MessagePullDto {
 
