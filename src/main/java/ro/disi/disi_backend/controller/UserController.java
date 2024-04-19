@@ -1,13 +1,13 @@
-package ro.disi.disi_backend.Controller;
+package ro.disi.disi_backend.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ro.disi.disi_backend.Dto.NewUserDto;
-import ro.disi.disi_backend.Model.UserProfile;
-import ro.disi.disi_backend.Service.UserService;
-import ro.disi.disi_backend.Utility.JsonUtility;
+import ro.disi.disi_backend.dto.NewUserDto;
+import ro.disi.disi_backend.model.UserProfile;
+import ro.disi.disi_backend.service.UserService;
+import ro.disi.disi_backend.utility.JsonUtility;
 
 import java.util.List;
 

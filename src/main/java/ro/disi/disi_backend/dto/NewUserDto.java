@@ -1,4 +1,4 @@
-package ro.disi.disi_backend.Dto;
+package ro.disi.disi_backend.dto;
 
 public class NewUserDto {
 

@@ -1,8 +1,8 @@
-package ro.disi.disi_backend.Repository;
+package ro.disi.disi_backend.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ro.disi.disi_backend.Model.User;
+import ro.disi.disi_backend.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {

@@ -1,4 +1,4 @@
-package ro.disi.disi_backend.Controller;
+package ro.disi.disi_backend.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ro.disi.disi_backend.Dto.MessagePullDto;
-import ro.disi.disi_backend.Model.Message;
-import ro.disi.disi_backend.Service.MessageService;
-import ro.disi.disi_backend.Utility.JsonUtility;
+import ro.disi.disi_backend.dto.MessagePullDto;
+import ro.disi.disi_backend.model.Message;
+import ro.disi.disi_backend.service.MessageService;
+import ro.disi.disi_backend.utility.JsonUtility;
 
 import java.util.List;
 

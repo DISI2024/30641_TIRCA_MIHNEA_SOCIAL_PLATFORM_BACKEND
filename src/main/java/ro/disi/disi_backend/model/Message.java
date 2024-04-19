@@ -1,4 +1,4 @@
-package ro.disi.disi_backend.Model;
+package ro.disi.disi_backend.model;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;

@@ -1,4 +1,4 @@
-package ro.disi.disi_backend.Configuration;
+package ro.disi.disi_backend.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

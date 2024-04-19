@@ -1,4 +1,4 @@
-package ro.disi.disi_backend.Controller;
+package ro.disi.disi_backend.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import net.minidev.json.parser.ParseException;
@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Controller;
-import ro.disi.disi_backend.Service.MessageService;
+import ro.disi.disi_backend.service.MessageService;
 
 @Controller
 public class MessageWsController {

@@ -1,12 +1,12 @@
-package ro.disi.disi_backend.Service;
+package ro.disi.disi_backend.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ro.disi.disi_backend.Dto.NewUserDto;
-import ro.disi.disi_backend.Model.User;
-import ro.disi.disi_backend.Model.UserProfile;
-import ro.disi.disi_backend.Repository.UserProfileRepository;
-import ro.disi.disi_backend.Repository.UserRepository;
+import ro.disi.disi_backend.dto.NewUserDto;
+import ro.disi.disi_backend.model.User;
+import ro.disi.disi_backend.model.UserProfile;
+import ro.disi.disi_backend.repository.UserProfileRepository;
+import ro.disi.disi_backend.repository.UserRepository;
 
 import java.util.List;
 
