@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ro.disi.disi_backend.dto.MessagePullDto;
-import ro.disi.disi_backend.model.Message;
+import ro.disi.disi_backend.model.entity.Message;
 import ro.disi.disi_backend.service.MessageService;
 import ro.disi.disi_backend.utility.JsonUtility;
 

@@ -4,8 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ro.disi.disi_backend.dto.NewUserDto;
-import ro.disi.disi_backend.model.UserProfile;
+import ro.disi.disi_backend.model.entity.UserProfile;
 import ro.disi.disi_backend.service.UserService;
 import ro.disi.disi_backend.utility.JsonUtility;
 
@@ -29,15 +28,5 @@ public class UserController {
             return ResponseEntity.badRequest().build();
 
         return JsonUtility.createJsonResponse(allUserProfiles);
-    }
-
-    @PostMapping("/createNewUserAndProfile")
-    public ResponseEntity<String> createNewUserAndProfile(@RequestBody NewUserDto requestBody) {
-        boolean status = userService.processNewUserRequest(requestBody);
-        if (!status)
-            return ResponseEntity.badRequest().body("User and profile creation failed!");
-
-        return ResponseEntity.ok("User and profile created successfully!");
-
     }
 }

@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import ro.disi.disi_backend.dto.MessagePullDto;
-import ro.disi.disi_backend.model.Message;
-import ro.disi.disi_backend.model.UserProfile;
+import ro.disi.disi_backend.model.entity.Message;
+import ro.disi.disi_backend.model.entity.UserProfile;
 import ro.disi.disi_backend.repository.MessageRepository;
 import ro.disi.disi_backend.repository.UserProfileRepository;
 
