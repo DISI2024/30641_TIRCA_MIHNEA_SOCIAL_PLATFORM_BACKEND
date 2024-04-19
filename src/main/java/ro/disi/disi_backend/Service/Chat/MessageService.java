@@ -90,7 +90,7 @@ public class MessageService {
         ).orElse(null);
 
         Message mostRecentMessage2 = messageRepository.findFirstBySenderUserProfileAndReceiverUserProfileOrderByIdDesc(
-                firstUserProfile, secondUserProfile
+                secondUserProfile, firstUserProfile
         ).orElse(null);
 
         if (mostRecentMessage1 != null && mostRecentMessage2 != null) {

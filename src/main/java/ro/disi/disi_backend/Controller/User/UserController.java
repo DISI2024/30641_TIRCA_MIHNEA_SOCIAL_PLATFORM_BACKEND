@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ro.disi.disi_backend.Dto.User.AuthRequestDto;
+import ro.disi.disi_backend.Dto.User.AuthResponseDto;
 import ro.disi.disi_backend.Dto.User.NewUserDto;
 import ro.disi.disi_backend.Model.User.UserProfile;
 import ro.disi.disi_backend.Service.User.UserService;
@@ -12,6 +14,7 @@ import ro.disi.disi_backend.Utility.JsonUtility;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/users")
 public class UserController {
 
@@ -39,5 +42,14 @@ public class UserController {
 
         return ResponseEntity.ok("User and profile created successfully!");
 
+    }
+
+    @PostMapping("/dummyAuth")
+    public ResponseEntity<AuthResponseDto> dummyAuth(@RequestBody AuthRequestDto authRequest) {
+        AuthResponseDto authResponse = userService.processDummyAuthRequest(authRequest);
+        if (authResponse == null)
+            return ResponseEntity.badRequest().build();
+
+        return ResponseEntity.ok(authResponse);
     }
 }
