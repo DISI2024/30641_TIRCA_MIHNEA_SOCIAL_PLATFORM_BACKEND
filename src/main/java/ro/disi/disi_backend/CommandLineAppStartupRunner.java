@@ -33,27 +33,5 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                     .build();
             userRepository.save(admin);
         }
-
-        Optional<User> optionalClient1 = userRepository.findByUsername("client1");
-        if (optionalClient1.isEmpty()) {
-            User client1 = User.builder()
-                    .email("client1.disi@gmail.ro")
-                    .username("client1")
-                    .password(passwordEncoder.encode("client1"))
-                    .role(UserRole.CLIENT)
-                    .build();
-            userRepository.save(client1);
-        }
-
-        Optional<User> optionalClient2 = userRepository.findByUsername("client2");
-        if (optionalClient2.isEmpty()) {
-            User client2 = User.builder()
-                    .email("client2.disi@gmail.ro")
-                    .username("client2")
-                    .password(passwordEncoder.encode("client2"))
-                    .role(UserRole.CLIENT)
-                    .build();
-            userRepository.save(client2);
-        }
     }
 }

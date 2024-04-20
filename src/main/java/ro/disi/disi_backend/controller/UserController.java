@@ -3,7 +3,9 @@ package ro.disi.disi_backend.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import ro.disi.disi_backend.dto.UserDataDto;
 import ro.disi.disi_backend.model.entity.UserProfile;
 import ro.disi.disi_backend.service.UserService;
 import ro.disi.disi_backend.utility.JsonUtility;
@@ -28,5 +30,11 @@ public class UserController {
             return ResponseEntity.badRequest().build();
 
         return JsonUtility.createJsonResponse(allUserProfiles);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT', 'ROLE_ADMIN')")
+    @GetMapping("/data")
+    public UserDataDto getUserData(@RequestHeader(name = "Authorization") String token) {
+        return userService.getUserData(token);
     }
 }
