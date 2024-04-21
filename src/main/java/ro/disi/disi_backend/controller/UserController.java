@@ -23,6 +23,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT', 'ROLE_ADMIN')")
     @GetMapping("/getAllUserProfiles")
     public ResponseEntity<String> getAllUserProfiles() throws JsonProcessingException {
         List<UserProfile> allUserProfiles = userService.processGetAllUserProfilesRequest();
