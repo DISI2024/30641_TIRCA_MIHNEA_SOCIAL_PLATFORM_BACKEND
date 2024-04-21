@@ -17,6 +17,7 @@ import ro.disi.disi_backend.repository.UserProfileRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 @Service
 public class MessageService {
@@ -59,20 +60,50 @@ public class MessageService {
         UserProfile secondUserProfile = userProfileRepository.findById(secondUserProfileId).orElse(null);
 
         if (firstUserProfile == null || secondUserProfile == null)
+        {
+            System.out.println("One of the users are null!");
             return null;
+        }
 
         List<Message> messageList = this.findAllMessagesForUsers(firstUserProfile, secondUserProfile).orElse(null);
         if (messageList == null)
+        {
+            System.out.println("The message list is null");
             return null;
+        }
 
-        // Replace with streams ?!?!
-        for (int i = 0; i < messageList.size(); i++)
-            if (firstUserProfile.equals(messageList.get(i).getReceiverUserProfile())) {
-                messageList.get(i).setSeenByReceiver(true);
-                messageRepository.save(messageList.get(i));
-            }
+        messageList.stream().filter(message -> firstUserProfileId == message.getReceiverUserProfile().getId()).forEach(
+                message -> {
+                    message.setSeenByReceiver(true);
+                    messageRepository.save(message);
+                }
+        );
 
         return messageList;
+    }
+
+    public boolean processMarkAllReceivedMessagesAsSeenRequest(MessagePullDto requestBody) {
+        long firstUserProfileId = requestBody.getFirstUserProfileId();
+        long secondUserProfileId = requestBody.getSecondUserProfileId();
+
+        UserProfile firstUserProfile = userProfileRepository.findById(firstUserProfileId).orElse(null);
+        UserProfile secondUserProfile = userProfileRepository.findById(secondUserProfileId).orElse(null);
+
+        if (firstUserProfile == null || secondUserProfile == null)
+            return false;
+
+        List<Message> messageList = this.findAllMessagesForUsers(firstUserProfile, secondUserProfile).orElse(null);
+        if (messageList == null)
+            return false;
+
+        messageList.stream().filter(message -> firstUserProfileId == message.getReceiverUserProfile().getId()).forEach(
+                message -> {
+                    message.setSeenByReceiver(true);
+                    messageRepository.save(message);
+                }
+        );
+
+        return true;
     }
 
     public Message processFindMostRecentPrivateMessageForUserRequest(MessagePullDto requestBody) {
