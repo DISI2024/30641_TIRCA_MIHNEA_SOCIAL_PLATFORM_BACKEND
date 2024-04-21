@@ -21,10 +21,10 @@ public class Post {
 
     @Lob
     @Basic(fetch = FetchType.LAZY)
-    private byte[] post;
+    private byte[] image;
 
-    public Post(String description, byte[] post) {
+    public Post(String description, byte[] image) {
         this.description = description;
-        this.post = post;
+        this.image = image;
     }
 }
