@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ro.disi.disi_backend.Dto.MessagePullDto;
 import ro.disi.disi_backend.Dto.NewMessageDto;
 import ro.disi.disi_backend.model.entity.Message;
-import ro.disi.disi_backend.Service.MessageService;
+import ro.disi.disi_backend.service.MessageService;
 import ro.disi.disi_backend.utility.JsonUtility;
 
 import java.io.IOException;

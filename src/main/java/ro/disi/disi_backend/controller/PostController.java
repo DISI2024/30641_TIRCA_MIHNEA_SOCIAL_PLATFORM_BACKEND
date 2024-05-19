@@ -5,9 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ro.disi.disi_backend.Dto.PostDto;
-import ro.disi.disi_backend.Service.PostService;
-import ro.disi.disi_backend.Service.UserService;
-import ro.disi.disi_backend.Service.UserProfileService;
+import ro.disi.disi_backend.service.PostService;
+import ro.disi.disi_backend.service.UserService;
+import ro.disi.disi_backend.service.UserProfileService;
 
 @RestController
 @RequestMapping("/api/posts")

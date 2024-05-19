@@ -1,4 +1,4 @@
-package ro.disi.disi_backend.Service;
+package ro.disi.disi_backend.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
