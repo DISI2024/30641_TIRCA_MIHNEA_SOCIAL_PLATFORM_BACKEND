@@ -22,7 +22,7 @@ public class PostService {
     }
 
     public Boolean createPost(PostDto postDto, UserProfile profile) {
-        Post post = new Post(postDto.description(), postDto.image());
+        Post post = new Post(postDto.description(), postDto.image(), profile);
         List<Post> currentPosts = profile.getPosts();
 
         if (currentPosts.add(post)) {
