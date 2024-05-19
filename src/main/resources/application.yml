@@ -11,7 +11,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/disi_db
     username: postgres
-    password: postgres
+    password: admin123
 security:
   cors:
     allowed-origins: 'http://localhost:3000'

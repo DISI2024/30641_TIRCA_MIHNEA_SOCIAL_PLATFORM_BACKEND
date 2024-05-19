@@ -28,6 +28,10 @@ public class UserProfile {
     @NotNull
     private String firstName;
 
+    private String description;
+
+
+
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonBackReference
