@@ -1,10 +1,10 @@
-package ro.disi.disi_backend.service;
+package ro.disi.disi_backend.Service;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ro.disi.disi_backend.dto.UserDataDto;
+import ro.disi.disi_backend.Dto.UserDataDto;
 import ro.disi.disi_backend.model.entity.User;
 import ro.disi.disi_backend.model.entity.UserProfile;
 import ro.disi.disi_backend.model.enums.UserRole;

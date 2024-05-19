@@ -1,4 +1,4 @@
-package ro.disi.disi_backend.service;
+package ro.disi.disi_backend.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,13 +8,20 @@ import net.minidev.json.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
-import ro.disi.disi_backend.dto.MessagePullDto;
+import org.springframework.web.multipart.MultipartFile;
+import ro.disi.disi_backend.Dto.MessagePullDto;
+import ro.disi.disi_backend.Dto.NewMessageDto;
+import ro.disi.disi_backend.model.entity.ImageMessage;
 import ro.disi.disi_backend.model.entity.Message;
 import ro.disi.disi_backend.model.entity.UserProfile;
+import ro.disi.disi_backend.model.entity.VocalMessage;
 import ro.disi.disi_backend.repository.MessageRepository;
 import ro.disi.disi_backend.repository.UserProfileRepository;
+import ro.disi.disi_backend.utility.ImageUtility;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -79,6 +86,13 @@ public class MessageService {
                 }
         );
 
+        for (Message message : messageList) {
+            if (message instanceof ImageMessage && ((ImageMessage) message).getImageData() != null) {
+                byte[] imageData = ((ImageMessage) message).getImageData();
+                ((ImageMessage) message).setImageData(ImageUtility.decompressImage(imageData));
+            }
+        }
+
         return messageList;
     }
 
@@ -104,6 +118,74 @@ public class MessageService {
         );
 
         return true;
+    }
+
+    public Message processImageMessageUploadRequest(MultipartFile file, NewMessageDto requestBody) throws IOException {
+
+        MultipartFile imageData = file;
+        long senderUserProfileId = requestBody.getSenderUserProfileId();
+        long receiverUserProfileId = requestBody.getReceiverUserProfileId();
+
+        UserProfile senderUserProfile = userProfileRepository.findById(senderUserProfileId).orElse(null);
+        UserProfile receiverUserProfile = userProfileRepository.findById(receiverUserProfileId).orElse(null);
+
+        if (senderUserProfile == null || receiverUserProfile == null) {
+            System.out.println("senderUserProfile or receiverUserProfile is NULL!");
+            return null;
+        }
+
+        ImageMessage imageMessage = new ImageMessage();
+        byte[] imageBytes = ImageUtility.compressImage(imageData.getBytes());
+        imageMessage.setImageData(imageBytes);
+        imageMessage.setSenderUserProfile(senderUserProfile);
+        imageMessage.setReceiverUserProfile(receiverUserProfile);
+        imageMessage.setContent(null);
+        imageMessage.setSeenByReceiver(false);
+        messageRepository.save(imageMessage);
+
+        ImageMessage uncompressedImageMessage = new ImageMessage();
+        uncompressedImageMessage.setImageData(imageMessage.getImageData());
+        uncompressedImageMessage.setSenderUserProfile(senderUserProfile);
+        uncompressedImageMessage.setReceiverUserProfile(receiverUserProfile);
+        uncompressedImageMessage.setContent(null);
+        uncompressedImageMessage.setSeenByReceiver(false);
+
+        return uncompressedImageMessage;
+    }
+
+    public Message processVocalMessageUploadRequest(MultipartFile file, NewMessageDto requestBody) throws IOException {
+        MultipartFile soundData = file;
+        long senderUserProfileId = requestBody.getSenderUserProfileId();
+        long receiverUserProfileId = requestBody.getReceiverUserProfileId();
+
+        UserProfile senderUserProfile = userProfileRepository.findById(senderUserProfileId).orElse(null);
+        UserProfile receiverUserProfile = userProfileRepository.findById(receiverUserProfileId).orElse(null);
+
+        if (senderUserProfile == null || receiverUserProfile == null)
+            return null;
+
+        VocalMessage vocalMessage = new VocalMessage();
+        // Sa incercam fara compresie
+        //vocalMessage.setSoundData(ImageUtility.compressImage(soundData.getBytes()));
+        vocalMessage.setSoundData(soundData.getBytes());
+        vocalMessage.setSenderUserProfile(senderUserProfile);
+        vocalMessage.setReceiverUserProfile(receiverUserProfile);
+        vocalMessage.setContent(null);
+        vocalMessage.setSeenByReceiver(false);
+
+        VocalMessage checkedMessage = (VocalMessage) messageRepository.save(vocalMessage);
+        if (checkedMessage == null)
+            return null;
+
+        VocalMessage uncompressedVocalMessage = new VocalMessage();
+        uncompressedVocalMessage.setSoundData(soundData.getBytes());
+        uncompressedVocalMessage.setSenderUserProfile(senderUserProfile);
+        uncompressedVocalMessage.setReceiverUserProfile(receiverUserProfile);
+        uncompressedVocalMessage.setContent(null);
+        uncompressedVocalMessage.setSeenByReceiver(false);
+
+        return uncompressedVocalMessage;
+
     }
 
     public Message processFindMostRecentPrivateMessageForUserRequest(MessagePullDto requestBody) {

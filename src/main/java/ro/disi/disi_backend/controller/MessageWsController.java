@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Controller;
-import ro.disi.disi_backend.service.MessageService;
+import ro.disi.disi_backend.Service.MessageService;
 
 @Controller
 public class MessageWsController {

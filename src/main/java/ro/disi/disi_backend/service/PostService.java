@@ -1,8 +1,8 @@
-package ro.disi.disi_backend.service;
+package ro.disi.disi_backend.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ro.disi.disi_backend.dto.PostDto;
+import ro.disi.disi_backend.Dto.PostDto;
 import ro.disi.disi_backend.model.entity.Post;
 import ro.disi.disi_backend.model.entity.UserProfile;
 import ro.disi.disi_backend.repository.PostRepository;

@@ -38,6 +38,7 @@ public class UserProfile {
     private List<Message> messages = new ArrayList<>();
 
     @OneToMany
+    @JsonBackReference
     private List<Post> posts = new ArrayList<>();
 
     public UserProfile(User user, String firstName, String lastName) {

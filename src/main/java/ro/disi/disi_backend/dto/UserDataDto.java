@@ -1,4 +1,4 @@
-package ro.disi.disi_backend.dto;
+package ro.disi.disi_backend.Dto;
 
 import ro.disi.disi_backend.model.enums.UserRole;
 
