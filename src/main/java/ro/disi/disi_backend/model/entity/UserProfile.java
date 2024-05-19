@@ -37,7 +37,9 @@ public class UserProfile {
     @JsonBackReference
     private List<Message> messages = new ArrayList<>();
 
-
+    @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
+    private List<Post> posts = new ArrayList<>();
 
     public UserProfile(User user, String firstName, String lastName) {
         this.user = user;
