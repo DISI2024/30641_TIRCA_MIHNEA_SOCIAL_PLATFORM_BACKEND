@@ -37,6 +37,8 @@ public class UserProfile {
     @JsonBackReference
     private List<Message> messages = new ArrayList<>();
 
+
+
     public UserProfile(User user, String firstName, String lastName) {
         this.user = user;
         this.firstName = firstName;
