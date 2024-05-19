@@ -53,4 +53,13 @@ public class UserService {
         }
         return new UserDataDto(user.getId(), user.getUsername(), "ADMIN", "ADMIN", user.getRole());
     }
+
+    @Transactional
+    public void deleteUser(Long userId) {
+        if (!userRepository.existsById(userId)) {
+            throw new IllegalArgumentException("User not found!");
+        }
+
+        userRepository.deleteById(userId);
+    }
 }
