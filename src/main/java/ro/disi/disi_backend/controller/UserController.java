@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import ro.disi.disi_backend.dto.UserDataDto;
+import ro.disi.disi_backend.Dto.UserDataDto;
 import ro.disi.disi_backend.model.entity.UserProfile;
-import ro.disi.disi_backend.service.UserService;
+import ro.disi.disi_backend.Service.UserService;
 import ro.disi.disi_backend.utility.JsonUtility;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_CLIENT', 'ROLE_ADMIN')")
+//    @PreAuthorize("hasAnyRole('ROLE_CLIENT', 'ROLE_ADMIN')")
     @GetMapping("/getAllUserProfiles")
     public ResponseEntity<String> getAllUserProfiles() throws JsonProcessingException {
         List<UserProfile> allUserProfiles = userService.processGetAllUserProfilesRequest();

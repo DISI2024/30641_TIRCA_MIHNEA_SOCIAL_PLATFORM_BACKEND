@@ -1,4 +1,4 @@
-package ro.disi.disi_backend.service;
+package ro.disi.disi_backend.Service;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;

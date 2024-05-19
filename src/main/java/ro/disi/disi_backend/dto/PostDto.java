@@ -1,4 +1,4 @@
-package ro.disi.disi_backend.dto;
+package ro.disi.disi_backend.Dto;
 
 public record PostDto(String description, byte[] image) {
 
