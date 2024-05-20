@@ -22,18 +22,14 @@ public class PostService {
         this.userProfileRepository = userProfileRepository;
     }
 
-    public Boolean createPost(PostDto postDto, Long id) {
+    public void createPost(PostDto postDto, Long id) {
         UserProfile profile = userProfileRepository.findByUserId(id).orElseThrow(() -> new IllegalArgumentException("Profile not found!"));;
         Post post = new Post(postDto.description(), postDto.image(), profile);
         List<Post> currentPosts = profile.getPosts();
 
-        if (currentPosts.add(post)) {
-            profile.setPosts(currentPosts);
-            userProfileRepository.save(profile);
-            return true;
-        }
-
-        return false;
+        currentPosts.add(0, post);
+        profile.setPosts(currentPosts);
+        userProfileRepository.save(profile);
     }
 
     @Transactional

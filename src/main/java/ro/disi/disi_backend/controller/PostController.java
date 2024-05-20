@@ -25,8 +25,9 @@ public class PostController {
 
     @PreAuthorize("hasRole('ROLE_CLIENT')")
     @PostMapping("/create")
-    public ResponseEntity<Boolean> createPost(@RequestBody PostDto postDto, @RequestHeader(name = "Authorization") String token) {
-        return ResponseEntity.ok(postService.createPost(postDto, userProfileService.getUserProfileIdByUserId(token)));
+    public ResponseEntity<Void> createPost(@RequestBody PostDto postDto, @RequestHeader(name = "Authorization") String token) {
+        postService.createPost(postDto, userProfileService.getUserProfileIdByUserId(token));
+        return ResponseEntity.noContent().build();
     }
 
     @PreAuthorize("hasRole('ROLE_CLIENT')")
