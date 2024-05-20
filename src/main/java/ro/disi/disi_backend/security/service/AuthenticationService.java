@@ -22,13 +22,9 @@ import ro.disi.disi_backend.security.model.dto.RegisterRequest;
 public class AuthenticationService {
 
     private final UserRepository userRepository;
-
     private final PasswordEncoder passwordEncoder;
-
     private final JwtService jwtService;
-
     private final AuthenticationManager authenticationManager;
-
     private final UserProfileRepository userProfileRepository;
 
     private User generateUser(RegisterRequest request) {
@@ -55,18 +51,19 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        String username = request.username();
+        String identifier = request.identifier();
         String password = request.password();
+
+        User user = userRepository.findByUsername(identifier)
+                .orElseGet(() -> userRepository.findByEmail(identifier)
+                        .orElseThrow(() -> new UsernameNotFoundException("User not found with username or email: " + identifier)));
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        username,
+                        user.getUsername(), // Always use the username for authentication
                         password
                 )
         );
-
-        User user = userRepository.findByUsername(request.username())
-                .orElseThrow(() -> new UsernameNotFoundException("User with username " + username + " not found!"));
 
         String jwt = jwtService.generateToken(user);
         return new AuthenticationResponse(jwt);

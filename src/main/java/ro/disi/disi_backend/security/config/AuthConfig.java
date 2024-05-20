@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ro.disi.disi_backend.repository.UserRepository;
+import ro.disi.disi_backend.service.CustomUserDetailsService;
 
 @Configuration
 @RequiredArgsConstructor
@@ -21,8 +22,7 @@ public class AuthConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User with username " + username + " not found!"));
+        return new CustomUserDetailsService(userRepository);
     }
 
     @Bean
