@@ -38,11 +38,11 @@ public class UserProfile {
     @JsonBackReference
     private User user;
 
-    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonBackReference
     private List<Message> messages = new ArrayList<>();
 
-    @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonBackReference
     private List<Post> posts = new ArrayList<>();
 

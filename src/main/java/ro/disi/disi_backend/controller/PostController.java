@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import ro.disi.disi_backend.Dto.PostDto;
+import ro.disi.disi_backend.dto.PostDto;
 import ro.disi.disi_backend.service.PostService;
 import ro.disi.disi_backend.service.UserService;
 import ro.disi.disi_backend.service.UserProfileService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -42,5 +44,13 @@ public class PostController {
     public ResponseEntity<Void> deletePostByAdmin(@PathVariable Long id) {
         postService.deletePostByAdmin(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PreAuthorize("hasRole('ROLE_CLIENT')")
+    @GetMapping("/friends")
+    public ResponseEntity<List<PostDto>> getFriendsPosts(@RequestHeader(name = "Authorization") String token) {
+        long userId = userService.getUserData(token).id();
+        List<PostDto> posts = postService.getUserAndFriendsPosts(userId);
+        return ResponseEntity.ok(posts);
     }
 }

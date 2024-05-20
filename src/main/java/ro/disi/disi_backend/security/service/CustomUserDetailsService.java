@@ -1,4 +1,4 @@
-package ro.disi.disi_backend.service;
+package ro.disi.disi_backend.security.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
