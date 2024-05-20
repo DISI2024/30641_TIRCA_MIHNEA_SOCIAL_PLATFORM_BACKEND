@@ -23,8 +23,13 @@ public class Post {
     @Basic(fetch = FetchType.LAZY)
     private byte[] image;
 
-    public Post(String description, byte[] image) {
+    @ManyToOne
+    @JoinColumn(name = "user_profile_id", nullable = false)
+    private UserProfile userProfile;
+
+    public Post(String description, byte[] image, UserProfile userProfile) {
         this.description = description;
         this.image = image;
+        this.userProfile = userProfile;
     }
 }

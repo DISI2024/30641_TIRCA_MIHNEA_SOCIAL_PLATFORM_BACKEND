@@ -1,4 +1,4 @@
-package ro.disi.disi_backend.Service;
+package ro.disi.disi_backend.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +22,15 @@ public class UserProfileService {
         this.userRepository = userRepository;
     }
 
-    public UserProfile getUserProfileIdByUserId(String bearerToken) {
+    public Long getUserProfileIdByUserId(String bearerToken) {
         String username = jwtService.extractUsernameFromBearerToken(bearerToken);
 
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException(username));
 
         UserProfile profile = userProfileRepository.findByUserId(user.getId())
-                .orElseThrow();
+                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(user.getId())));
 
-        return profile;
+        return profile.getId();
     }
 }
