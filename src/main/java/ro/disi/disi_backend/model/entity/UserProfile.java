@@ -42,7 +42,7 @@ public class UserProfile {
     @JsonBackReference
     private List<Message> messages = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
     private List<Post> posts = new ArrayList<>();
 

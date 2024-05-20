@@ -7,7 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ro.disi.disi_backend.Dto.UserDataDto;
 import ro.disi.disi_backend.model.entity.UserProfile;
-import ro.disi.disi_backend.Service.UserService;
+import ro.disi.disi_backend.service.UserService;
 import ro.disi.disi_backend.utility.JsonUtility;
 
 import java.util.List;
@@ -37,5 +37,12 @@ public class UserController {
     @GetMapping("/data")
     public UserDataDto getUserData(@RequestHeader(name = "Authorization") String token) {
         return userService.getUserData(token);
+    }
+
+    @DeleteMapping("/deleteAdmin/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
     }
 }
