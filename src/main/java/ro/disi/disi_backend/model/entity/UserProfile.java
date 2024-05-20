@@ -67,4 +67,7 @@ public class UserProfile {
         this.lastName = lastName;
         this.profilePictureURL = "https://imgur.com/ZQPyimj";
     }
+
+    public void setProfilePictureUrl(String toString) {
+    }
 }
