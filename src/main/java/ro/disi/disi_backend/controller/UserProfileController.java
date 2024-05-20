@@ -27,6 +27,7 @@ public class UserProfileController {
     public ResponseEntity<UserProfile> updateUserProfile(
             @PathVariable Long id,
             @RequestBody UserProfile userProfile) {
+        System.out.println(userProfile);
         UserProfile updatedProfile = userProfileService.updateUserProfile(id, userProfile);
         return ResponseEntity.ok(updatedProfile);
     }
@@ -43,9 +44,18 @@ public class UserProfileController {
         }
     }
 
+    @PutMapping("/{id}/description")
+    public ResponseEntity<UserProfile> updateDescription(
+            @PathVariable Long id,
+            @RequestBody String description) {
+        UserProfile updatedProfile = userProfileService.updateDescription(id, description);
+        return ResponseEntity.ok(updatedProfile);
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<UserProfile> getUserProfileByUserId(@PathVariable Long UserId) {
-        UserProfile userProfile = userProfileService.getUserProfileByUserId(UserId);
+    public ResponseEntity<UserProfile> getUserProfileByUserId(@PathVariable Long id) {
+        System.out.println("UserId in controller: " + id);
+        UserProfile userProfile = userProfileService.getUserProfileByUserId(id);
         return ResponseEntity.ok(userProfile);
     }
 //

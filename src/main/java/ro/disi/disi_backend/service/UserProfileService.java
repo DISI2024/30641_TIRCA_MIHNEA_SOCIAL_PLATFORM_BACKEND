@@ -55,6 +55,13 @@ public class UserProfileService {
         return userProfileRepository.save(existingProfile);
     }
 
+    public UserProfile updateDescription(Long id, String description) {
+        UserProfile userProfile = userProfileRepository.findByUserId(id)
+                .orElseThrow(() -> new EntityNotFoundException("UserProfile not found for id: " + id));
+        userProfile.setDescription(description);
+        return userProfileRepository.save(userProfile);
+    }
+
     public UserProfile updateProfilePicture(Long id, MultipartFile file) throws IOException {
         UserProfile existingProfile = userProfileRepository.findById(id).orElseThrow();
         String fileName = file.getOriginalFilename();
@@ -64,6 +71,7 @@ public class UserProfileService {
         return userProfileRepository.save(existingProfile);
     }
     public UserProfile getUserProfileByUserId(Long userId) {
+        System.out.println("userId: " + userId);
         UserProfile profile = userProfileRepository.findByUserId(userId)
                 .orElseThrow(() -> new EntityNotFoundException("UserProfile not found for userId: " + userId));
         return profile;

@@ -46,18 +46,18 @@ public class UserProfile {
     @JsonBackReference
     private List<Post> posts = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_friends",
-            joinColumns = @JoinColumn(name = "user_profile_id"),
-            inverseJoinColumns = @JoinColumn(name = "friend_id")
-    )
-    @JsonManagedReference
-    private List<UserProfile> friends = new ArrayList<>();
-
-    @ManyToMany(mappedBy = "friends")
-    @JsonBackReference
-    private List<UserProfile> friendOf = new ArrayList<>();
+//    @ManyToMany
+//    @JoinTable(
+//            name = "user_friends",
+//            joinColumns = @JoinColumn(name = "user_profile_id"),
+//            inverseJoinColumns = @JoinColumn(name = "friend_id")
+//    )
+//    @JsonManagedReference
+//    private List<UserProfile> friends = new ArrayList<>();
+//
+//    @ManyToMany(mappedBy = "friends")
+//    @JsonBackReference
+//    private List<UserProfile> friendOf = new ArrayList<>();
 
 
 
