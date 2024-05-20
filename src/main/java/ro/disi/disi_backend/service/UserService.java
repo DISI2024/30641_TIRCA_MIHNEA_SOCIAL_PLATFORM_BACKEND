@@ -1,4 +1,4 @@
-package ro.disi.disi_backend.Service;
+package ro.disi.disi_backend.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -52,5 +52,14 @@ public class UserService {
             return new UserDataDto(user.getId(), user.getUsername(), profile.getFirstName(), profile.getLastName(), user.getRole());
         }
         return new UserDataDto(user.getId(), user.getUsername(), "ADMIN", "ADMIN", user.getRole());
+    }
+
+    @Transactional
+    public void deleteUser(Long userId) {
+        if (!userRepository.existsById(userId)) {
+            throw new IllegalArgumentException("User not found!");
+        }
+
+        userRepository.deleteById(userId);
     }
 }
