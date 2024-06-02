@@ -92,12 +92,11 @@ public class UserFriendService {
     }
 
     public List<UserFriendDTO> getAllFriends(UserProfile userProfile) {
-
-        long requesterId = userProfile.getId();
-
         List<UserFriend> friends = new ArrayList<>();
         friends = userFriendRepository.getAllByUserProfile1(userProfile);
-
+        for (UserFriend userFriend : friends) {
+            System.out.println(userFriend);
+        }
         List<UserFriendDTO>friendsDTO = new ArrayList<>();
         for (UserFriend userFriend : friends) {
             friendsDTO.add(new UserFriendDTO(userFriend.getUserProfile1(), userFriend.getUserProfile2(), userFriend.getStatus()));

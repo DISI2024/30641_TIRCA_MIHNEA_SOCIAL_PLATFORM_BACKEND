@@ -1,6 +1,7 @@
 package ro.disi.disi_backend.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -9,6 +10,7 @@ import ro.disi.disi_backend.Dto.UserDataDto;
 import ro.disi.disi_backend.Dto.UserFriendDTO;
 import ro.disi.disi_backend.model.entity.User;
 import ro.disi.disi_backend.model.entity.UserProfile;
+import ro.disi.disi_backend.security.service.JwtService;
 import ro.disi.disi_backend.service.UserFriendService;
 import ro.disi.disi_backend.service.UserProfileService;
 import ro.disi.disi_backend.service.UserService;
@@ -21,18 +23,20 @@ public class UserFriendController {
     private final UserFriendService userFriendService;
     private final UserService userService;
     private final UserProfileService userProfileService;
+    private final JwtService jwtService;
 
     @Autowired
-    public UserFriendController(UserFriendService userFriendService, UserService userService, UserProfileService userProfileService) {this.userFriendService = userFriendService;
+    public UserFriendController(UserFriendService userFriendService, UserService userService, UserProfileService userProfileService, JwtService jwtService) {this.userFriendService = userFriendService;
         this.userService = userService;
         this.userProfileService = userProfileService;
+        this.jwtService = jwtService;
     }
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENT', 'ROLE_ADMIN')")
     @GetMapping("/createFriendRequest")
     public UserFriendDTO createFriendRequest(@RequestHeader(name = "Authorization") String token, String requestedUsername) {
 
-        UserDataDto userData1 = userService.getUserByUsername(token);
+        UserDataDto userData1 = userService.getUserData(token);
 
         UserProfile userProfile1 = userProfileService.getUserProfileByUserIdOnly(userData1.id());
 
@@ -43,14 +47,23 @@ public class UserFriendController {
     @GetMapping("/getAllFriends")
     public ResponseEntity<String> getAllFriends(@RequestHeader(name = "Authorization") String token) throws JsonProcessingException {
         System.out.println("O intrat aci");
-        UserDataDto userData = userService.getUserByUsername(token);
+        System.out.println(token);
+        UserDataDto userData = userService.getUserData(token);
+        System.out.println(userData);
         //long id = userData.id();
         //long id = 1;
         UserProfile userProfile = userProfileService.getUserProfileByUserIdOnly(userData.id());
+        System.out.println(userProfile.getFirstName());
         List<UserFriendDTO> friends = userFriendService.getAllFriends(userProfile);
+        System.out.println("Prietenari:");
+        for (UserFriendDTO friend : friends) {
+            System.out.println(friend);
+        }
 
-        if (friends.size() > 0) {
-            return ResponseEntity.ok().body(friends.toString());
+        ObjectMapper objectMapper = new ObjectMapper();
+        String friendsJson = objectMapper.writeValueAsString(friends);
+        if (!friends.isEmpty()) {
+            return ResponseEntity.ok().body(friendsJson);
         } else {
             System.out.println("Ii bai");
             return ResponseEntity.badRequest().body("No friends found");
