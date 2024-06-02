@@ -19,11 +19,12 @@ public class UserFriend {
     private long id;
 
     @NotNull
-    private long userId1;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private UserProfile user1;
 
     @NotNull
-
-    private long userId2;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private UserProfile user2;
 
     @NotNull
     private UserFriendStatus status;

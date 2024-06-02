@@ -33,4 +33,12 @@ public class UserProfileService {
 
         return profile;
     }
+
+    public UserProfile getUserProfileByUserIdOnly(long userId) {
+        UserProfile userProfile = userProfileRepository.findByUserId(userId)
+                .orElseThrow(() -> new EntityNotFoundException(Long.toString(userId)));
+
+        return userProfile;
+    }
+
 }

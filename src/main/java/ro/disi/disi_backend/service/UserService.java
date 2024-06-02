@@ -13,6 +13,7 @@ import ro.disi.disi_backend.repository.UserRepository;
 import ro.disi.disi_backend.security.service.JwtService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -52,5 +53,15 @@ public class UserService {
             return new UserDataDto(user.getId(), user.getUsername(), profile.getFirstName(), profile.getLastName(), user.getRole());
         }
         return new UserDataDto(user.getId(), user.getUsername(), "ADMIN", "ADMIN", user.getRole());
+    }
+
+    public UserDataDto getUserByUsername(String bearerToken) {
+        String username = jwtService.extractUsernameFromBearerToken(bearerToken);
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException(username));
+
+        Optional<UserProfile> profile = userProfileRepository.findByUserId(user.getId());
+        return new UserDataDto(user.getId(), user.getUsername(), profile.get().getFirstName(), profile.get().getLastName(), user.getRole());
     }
 }
