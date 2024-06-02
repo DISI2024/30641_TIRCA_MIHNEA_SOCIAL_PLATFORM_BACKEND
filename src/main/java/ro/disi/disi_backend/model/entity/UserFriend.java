@@ -20,15 +20,15 @@ public class UserFriend {
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
-    private UserProfile user1;
+    private UserProfile userProfile1;
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
-    private UserProfile user2;
+    private UserProfile userProfile2;
 
     @NotNull
     private UserFriendStatus status;
 
-    public UserFriend(@NotNull long userId1, @NotNull long userId2, @NotNull UserFriendStatus status) {}
+    public UserFriend(@NotNull UserProfile userProfile1, @NotNull UserProfile userProfile2, @NotNull UserFriendStatus status) {}
 
 }

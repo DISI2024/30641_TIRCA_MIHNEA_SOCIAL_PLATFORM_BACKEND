@@ -46,11 +46,11 @@ public class PostController {
         return ResponseEntity.noContent().build();
     }
 
-    @PreAuthorize("hasRole('ROLE_CLIENT')")
-    @GetMapping("/friends")
-    public ResponseEntity<List<PostDto>> getFriendsPosts(@RequestHeader(name = "Authorization") String token) {
-        long userId = userService.getUserData(token).id();
-        List<PostDto> posts = postService.getUserAndFriendsPosts(userId);
-        return ResponseEntity.ok(posts);
-    }
+//    @PreAuthorize("hasRole('ROLE_CLIENT')")
+//    @GetMapping("/friends")
+//    public ResponseEntity<List<PostDto>> getFriendsPosts(@RequestHeader(name = "Authorization") String token) {
+//        long userId = userService.getUserData(token).id();
+//        List<PostDto> posts = postService.getUserAndFriendsPosts(userId);
+//        return ResponseEntity.ok(posts);
+//    }
 }

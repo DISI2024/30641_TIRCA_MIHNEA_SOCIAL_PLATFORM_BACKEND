@@ -51,12 +51,12 @@ public class PostService {
         postRepository.delete(post);
     }
 
-    public List<PostDto> getUserAndFriendsPosts(long userId) {
-        List<Post> userPosts = postRepository.findAllByUserProfile_Id(userId);
-        List<Post> friendsPosts = postRepository.findAllFriendsPosts(userId, UserFriendStatus.NORMAL);
-        List<Post> allPosts = new ArrayList<>(userPosts);
-        allPosts.addAll(friendsPosts);
-        return allPosts.stream().map(post -> new PostDto(post.getDescription(), post.getImage())).collect(Collectors.toList());
-    }
+//    public List<PostDto> getUserAndFriendsPosts(long userId) {
+//        List<Post> userPosts = postRepository.findAllByUserProfile_Id(userId);
+//        List<Post> friendsPosts = postRepository.findAllFriendsPosts(userId, UserFriendStatus.NORMAL);
+//        List<Post> allPosts = new ArrayList<>(userPosts);
+//        allPosts.addAll(friendsPosts);
+//        return allPosts.stream().map(post -> new PostDto(post.getDescription(), post.getImage())).collect(Collectors.toList());
+//    }
 }
 

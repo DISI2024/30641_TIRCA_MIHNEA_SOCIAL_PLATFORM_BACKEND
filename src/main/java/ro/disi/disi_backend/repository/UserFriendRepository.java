@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import ro.disi.disi_backend.model.entity.UserFriend;
+import ro.disi.disi_backend.model.entity.UserProfile;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,8 +13,9 @@ import java.util.Optional;
 public interface UserFriendRepository extends JpaRepository<UserFriend, Long> {
 
     Optional<UserFriend> findById(long id);
-    Optional<UserFriend> findByUserId1(long userId1);
-    Optional<UserFriend> findByUserId2(long userId2);
-    Optional<UserFriend> findByUserId1AndAndUserId2(long userId1, long userId2);
-    List<UserFriend> getAllByUserId1Is(long userId1);
+    Optional<UserFriend> findByUserProfile1(UserProfile profile);
+    Optional<UserFriend> findByUserProfile2(UserProfile profile);
+    List<UserFriend> getAllByUserProfile1(UserProfile profile);
+    List<UserFriend> getAllByUserProfile2(UserProfile profile);
+    Optional<UserFriend>findByUserProfile1AndUserProfile2(UserProfile profile1, UserProfile profile2);
 }
