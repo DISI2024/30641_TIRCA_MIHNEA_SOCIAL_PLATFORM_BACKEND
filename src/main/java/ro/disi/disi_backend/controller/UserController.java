@@ -38,4 +38,11 @@ public class UserController {
     public UserDataDto getUserData(@RequestHeader(name = "Authorization") String token) {
         return userService.getUserData(token);
     }
+
+    @DeleteMapping("/deleteAdmin/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
+    }
 }
