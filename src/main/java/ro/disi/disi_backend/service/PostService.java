@@ -5,9 +5,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.disi.disi_backend.dto.PostDto;
 import ro.disi.disi_backend.model.entity.Post;
+import ro.disi.disi_backend.model.entity.UserFriend;
 import ro.disi.disi_backend.model.entity.UserProfile;
 import ro.disi.disi_backend.model.enums.UserFriendStatus;
 import ro.disi.disi_backend.repository.PostRepository;
+import ro.disi.disi_backend.repository.UserFriendRepository;
 import ro.disi.disi_backend.repository.UserProfileRepository;
 
 import java.util.ArrayList;
@@ -19,10 +21,14 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserProfileRepository userProfileRepository;
 
+    //am adaugat acm
+    private final UserFriendRepository userFriendRepository;
+
     @Autowired
-    public PostService(PostRepository postRepository, UserProfileRepository userProfileRepository) {
+    public PostService(PostRepository postRepository, UserProfileRepository userProfileRepository, UserFriendRepository userFriendRepository) {
         this.postRepository = postRepository;
         this.userProfileRepository = userProfileRepository;
+        this.userFriendRepository = userFriendRepository;
     }
 
     @Transactional
@@ -59,5 +65,29 @@ public class PostService {
 //        allPosts.addAll(friendsPosts);
 //        return allPosts.stream().map(post -> new PostDto(post.getDescription(), post.getImage())).collect(Collectors.toList());
 //    }
+
+
+    //am schimbat acm
+    @Transactional(readOnly = true)
+    public List<Post> getPostsForUserAndFriends(Long userId) {
+        UserProfile userProfile = userProfileRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("UserProfile not found for id: " + userId));
+
+        // Fetch friends regardless of status using the new method
+        List<UserFriend> friends = userFriendRepository.findAllByUserProfile1(userProfile);
+        List<Long> userIds = new ArrayList<>();
+        userIds.add(userId); // Include the user's own posts
+        for (UserFriend friend : friends) {
+            userIds.add(friend.getUserProfile2().getId());
+        }
+
+        System.out.println("User IDs for fetching posts: " + userIds);
+
+        List<Post> posts = postRepository.findByUserProfile_IdInOrderByIdDesc(userIds);
+
+        System.out.println("Fetched posts: " + posts.size());
+
+        return posts;
+    }
 }
 
