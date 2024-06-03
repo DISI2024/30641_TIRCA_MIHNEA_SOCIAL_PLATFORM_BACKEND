@@ -94,5 +94,18 @@ public class PostService {
 
         return posts;
     }
+
+    @Transactional(readOnly = true)
+    public List<Post> getPostsForUser(Long userId) {
+        UserProfile userProfile = userProfileRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("UserProfile not found for id: " + userId));
+
+        List<Post> posts = postRepository.findByUserProfile_IdOrderByIdDesc(userProfile.getId());
+
+        System.out.println("Fetched posts: " + posts.size());
+
+        return posts;
+    }
+
 }
 
