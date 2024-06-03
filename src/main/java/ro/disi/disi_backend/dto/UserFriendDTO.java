@@ -1,4 +1,4 @@
-package ro.disi.disi_backend.Dto;
+package ro.disi.disi_backend.dto;
 
 import ro.disi.disi_backend.model.entity.UserProfile;
 import ro.disi.disi_backend.model.enums.UserFriendStatus;

@@ -1,4 +1,4 @@
-package ro.disi.disi_backend.Dto;
+package ro.disi.disi_backend.dto;
 
 import jakarta.validation.constraints.NotNull;
 import org.springframework.web.multipart.MultipartFile;

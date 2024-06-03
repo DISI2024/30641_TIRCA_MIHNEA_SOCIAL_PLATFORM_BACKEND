@@ -54,4 +54,12 @@ public class PostController {
         Long userId = userProfileService.getUserProfileIdByUserId(token);
         return postService.getPostsForUserAndFriends(userId);
     }
+
+    @PreAuthorize("hasRole('ROLE_CLIENT')")
+    @GetMapping("/myPosts")
+    public List<Post> getUserPosts(@RequestHeader(name = "Authorization") String token) {
+        Long userId = userProfileService.getUserProfileIdByUserId(token);
+        return postService.getPostsForUser(userId);
+    }
+
 }

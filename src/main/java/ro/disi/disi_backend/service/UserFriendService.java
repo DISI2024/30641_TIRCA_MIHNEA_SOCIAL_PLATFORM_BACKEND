@@ -3,7 +3,7 @@ package ro.disi.disi_backend.service;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ro.disi.disi_backend.Dto.UserFriendDTO;
+import ro.disi.disi_backend.dto.UserFriendDTO;
 import ro.disi.disi_backend.model.entity.User;
 import ro.disi.disi_backend.model.entity.UserFriend;
 import ro.disi.disi_backend.model.entity.UserProfile;
