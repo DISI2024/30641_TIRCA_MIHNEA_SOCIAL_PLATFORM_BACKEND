@@ -9,8 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import ro.disi.disi_backend.Dto.MessagePullDto;
-import ro.disi.disi_backend.Dto.NewMessageDto;
+import ro.disi.disi_backend.dto.MessagePullDto;
+import ro.disi.disi_backend.dto.NewMessageDto;
+import ro.disi.disi_backend.dto.UserIdDto;
 import ro.disi.disi_backend.model.entity.ImageMessage;
 import ro.disi.disi_backend.model.entity.Message;
 import ro.disi.disi_backend.model.entity.UserProfile;
@@ -21,10 +22,8 @@ import ro.disi.disi_backend.utility.ImageUtility;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 @Service
 public class MessageService {
@@ -42,6 +41,16 @@ public class MessageService {
         this.messageRepository = messageRepository;
     }
 
+    public UserIdDto processGetUserProfileIdRequest(UserIdDto userIdDto) {
+        UserProfile userProfile = userProfileRepository.findByUserId(userIdDto.getUserId()).orElse(null);
+        if (userProfile == null) {
+            return null;
+        }
+
+        UserIdDto userProfileDto = new UserIdDto();
+        userProfileDto.setUserId(userProfile.getId());
+        return userProfileDto;
+    }
     private Optional<List<Message>> findAllMessagesForUsers(UserProfile senderUserProfile, UserProfile receiverUserProfile) {
 
         List<Message> firstList = messageRepository.findAllBySenderUserProfileAndReceiverUserProfile(senderUserProfile, receiverUserProfile).orElse(null);
@@ -144,7 +153,7 @@ public class MessageService {
         messageRepository.save(imageMessage);
 
         ImageMessage uncompressedImageMessage = new ImageMessage();
-        uncompressedImageMessage.setImageData(imageMessage.getImageData());
+        uncompressedImageMessage.setImageData(imageData.getBytes());
         uncompressedImageMessage.setSenderUserProfile(senderUserProfile);
         uncompressedImageMessage.setReceiverUserProfile(receiverUserProfile);
         uncompressedImageMessage.setContent(null);

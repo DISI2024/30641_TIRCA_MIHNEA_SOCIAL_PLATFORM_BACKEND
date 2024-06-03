@@ -4,11 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ro.disi.disi_backend.Dto.MessagePullDto;
-import ro.disi.disi_backend.Dto.NewMessageDto;
+import ro.disi.disi_backend.dto.MessagePullDto;
+import ro.disi.disi_backend.dto.NewMessageDto;
+import ro.disi.disi_backend.dto.UserIdDto;
 import ro.disi.disi_backend.model.entity.Message;
 import ro.disi.disi_backend.service.MessageService;
 import ro.disi.disi_backend.utility.JsonUtility;
@@ -28,6 +28,15 @@ public class MessageRestController {
     public MessageRestController(MessageService messageService, SimpMessagingTemplate messagingTemplate) {
         this.messageService = messageService;
         this.messagingTemplate = messagingTemplate;
+    }
+
+    @PostMapping("/getUserProfileId")
+    public ResponseEntity<String> getUserId(@RequestBody UserIdDto requestBody) throws JsonProcessingException {
+        UserIdDto userIdDto = messageService.processGetUserProfileIdRequest(requestBody);
+        if (userIdDto == null)
+            return ResponseEntity.badRequest().body("Could not retrieve user profile id");
+
+        return JsonUtility.createJsonResponse(userIdDto);
     }
 
 //    @PreAuthorize("hasAnyRole('ROLE_CLIENT', 'ROLE_ADMIN')")

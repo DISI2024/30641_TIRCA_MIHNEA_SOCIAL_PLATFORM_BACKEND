@@ -1,4 +1,4 @@
-package ro.disi.disi_backend.Dto.User;
+package ro.disi.disi_backend.dto.user;
 
 public class AuthResponseDto {
 
