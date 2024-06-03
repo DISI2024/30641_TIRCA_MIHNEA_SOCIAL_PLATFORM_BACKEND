@@ -68,9 +68,25 @@ public class UserFriendService {
         UserProfile user2 = userProfileRepository.findByUserId(requestedUserId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        UserFriend userFriend = new UserFriend(user, user2, UserFriendStatus.PENDING2);
+        if (userFriendRepository.findByUserProfile1AndUserProfile2(user,user2).isPresent() ||
+                userFriendRepository.findByUserProfile1AndUserProfile2(user2, user).isPresent()) {
+            throw new IllegalArgumentException("User friend already exists");
+        }
 
+        System.out.println("UserProfile1: " + user);
+        System.out.println("UserProfile2: " + user2);
+
+        UserFriend userFriend = new UserFriend();
+        userFriend.setUserProfile1(user);
+        userFriend.setUserProfile2(user2);
+        userFriend.setStatus(UserFriendStatus.PENDING2);
         userFriendRepository.save(userFriend);
+        UserFriend userFriend2 = new UserFriend();
+        userFriend2.setUserProfile1(user2);
+        userFriend2.setUserProfile2(user);
+        userFriend2.setStatus(UserFriendStatus.PENDING1);
+        userFriendRepository.save(userFriend);
+        userFriendRepository.save(userFriend2);
         return new UserFriendDTO(user,user2, userFriend.getStatus());
     }
 
@@ -81,12 +97,17 @@ public class UserFriendService {
             if (found == true) {
                 User requestedUser = userRepository.findByUsername(requestedUserName).orElseThrow();
                 UserProfile userProfile2 = userProfileRepository.findByUserId(requestedUser.getId()).orElseThrow();
+                System.out.println("UserProfile: " + userProfile);
+                System.out.println("UserProfile2: " + userProfile2);
                 UserFriend userFriendToDelete = userFriendRepository.findByUserProfile1AndUserProfile2(userProfile, userProfile2)
                         .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                UserFriend userFriendToDelete2 = userFriendRepository.findByUserProfile1AndUserProfile2(userProfile2, userProfile)
+                        .orElseThrow(() -> new IllegalArgumentException("User not found"));
                 userFriendRepository.delete(userFriendToDelete);
+                userFriendRepository.delete(userFriendToDelete2);
             }
         } catch (Exception e) {
-            throw new IllegalArgumentException("User not found");
+            throw new IllegalArgumentException("User not found or user is not a friend");
         }
         return 0;
     }

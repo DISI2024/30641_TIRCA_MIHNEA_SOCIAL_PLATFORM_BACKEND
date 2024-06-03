@@ -8,7 +8,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ro.disi.disi_backend.Dto.UserDataDto;
 import ro.disi.disi_backend.Dto.UserFriendDTO;
-import ro.disi.disi_backend.model.entity.User;
 import ro.disi.disi_backend.model.entity.UserProfile;
 import ro.disi.disi_backend.security.service.JwtService;
 import ro.disi.disi_backend.service.UserFriendService;
@@ -33,15 +32,16 @@ public class UserFriendController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENT', 'ROLE_ADMIN')")
-    @GetMapping("/createFriendRequest")
-    public UserFriendDTO createFriendRequest(@RequestHeader(name = "Authorization") String token, String requestedUsername) {
+    @PostMapping("/{username}/createFriendRequest")
+    public UserFriendDTO createFriendRequest(@RequestHeader(name = "Authorization") String token, @PathVariable String username) {
 
+        System.out.println("Add user with username: " + username + " to user friend request");
         UserDataDto userData1 = userService.getUserData(token);
 
         UserProfile userProfile1 = userProfileService.getUserProfileByUserIdOnly(userData1.id());
 
 
-        return userFriendService.addFriendRequestByUserName(userProfile1, requestedUsername);
+        return userFriendService.addFriendRequestByUserName(userProfile1, username);
     }
 
     @GetMapping("/getAllFriends")
@@ -70,13 +70,14 @@ public class UserFriendController {
         }
     }
 
-//    @PreAuthorize("hasAnyRole('ROLE_CLIENT', 'ROLE_ADMIN')")
-//    @GetMapping("/removeFriend")
-//    public UserFriendDTO removeFriend(@RequestHeader(name = "Authorization") String token, String username) {
-//
-//        UserDataDto userData = userService.getUserByUsername(token);
-//        long id1 = userData.id();
-//        return userFriendService.addFriendRequestByUserName(id1, username);
-//    }
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT', 'ROLE_ADMIN')")
+    @DeleteMapping("/{username}/removeFriend")
+    public int removeFriend(@RequestHeader(name = "Authorization") String token, @PathVariable String username) {
+
+        UserDataDto userData = userService.getUserData(token);
+        UserProfile userProfile = userProfileService.getUserProfileByUserIdOnly(userData.id());
+        System.out.println(username);
+        return userFriendService.removeFriend(userProfile, username);
+    }
 
 }
