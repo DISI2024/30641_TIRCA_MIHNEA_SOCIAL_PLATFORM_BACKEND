@@ -25,6 +25,7 @@ public class PostService {
         this.userProfileRepository = userProfileRepository;
     }
 
+    @Transactional
     public void createPost(PostDto postDto, Long id) {
         UserProfile profile = userProfileRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Profile not found!"));
         ;

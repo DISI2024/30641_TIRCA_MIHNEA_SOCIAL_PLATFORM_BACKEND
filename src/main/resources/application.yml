@@ -7,6 +7,9 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          lob:
+            non_contextual_creation=true
     open-in-view: false
   datasource:
     url: jdbc:postgresql://localhost:5432/disi_db
@@ -15,3 +18,4 @@ spring:
 security:
   cors:
     allowed-origins: 'http://localhost:3000'
+

@@ -3,6 +3,7 @@ package ro.disi.disi_backend.service;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import ro.disi.disi_backend.model.entity.User;
 import ro.disi.disi_backend.model.entity.UserProfile;
@@ -70,6 +71,7 @@ public class UserProfileService {
         existingProfile.setProfilePictureUrl(filePath.toString());
         return userProfileRepository.save(existingProfile);
     }
+    @Transactional(readOnly = true)
     public UserProfile getUserProfileByUserId(Long userId) {
         System.out.println("userId: " + userId);
         UserProfile profile = userProfileRepository.findByUserId(userId)
@@ -77,6 +79,7 @@ public class UserProfileService {
         return profile;
     }
 
+    @Transactional(readOnly = true)
     public UserProfile getUserProfileByUserIdOnly(long userId) {
         UserProfile userProfile = userProfileRepository.findByUserId(userId)
                 .orElseThrow(() -> new EntityNotFoundException(Long.toString(userId)));
