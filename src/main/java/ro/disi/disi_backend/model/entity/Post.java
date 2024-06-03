@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Setter
@@ -27,9 +29,13 @@ public class Post {
     @JoinColumn(name = "user_profile_id", nullable = false)
     private UserProfile userProfile;
 
-    public Post(String description, byte[] image, UserProfile userProfile) {
+    @NotNull
+    private LocalDateTime timestamp;
+
+    public Post(String description, byte[] image, UserProfile userProfile, LocalDateTime timestamp) {
         this.description = description;
         this.image = image;
         this.userProfile = userProfile;
+        this.timestamp = timestamp;
     }
 }

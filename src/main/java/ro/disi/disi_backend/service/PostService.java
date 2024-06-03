@@ -12,6 +12,7 @@ import ro.disi.disi_backend.repository.PostRepository;
 import ro.disi.disi_backend.repository.UserFriendRepository;
 import ro.disi.disi_backend.repository.UserProfileRepository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,15 +34,19 @@ public class PostService {
 
     @Transactional
     public void createPost(PostDto postDto, Long id) {
-        UserProfile profile = userProfileRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Profile not found!"));
-        ;
-        Post post = new Post(postDto.description(), postDto.image(), profile);
-        List<Post> currentPosts = profile.getPosts();
+        UserProfile profile = userProfileRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Profile not found!"));
 
+        LocalDateTime timestamp = LocalDateTime.now();
+
+        Post post = new Post(postDto.description(), postDto.image(), profile, timestamp);
+
+        List<Post> currentPosts = profile.getPosts();
         currentPosts.add(0, post);
         profile.setPosts(currentPosts);
         userProfileRepository.save(profile);
     }
+
 
     @Transactional
     public void deletePostByClient(Long postId, String username) {
